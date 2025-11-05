@@ -1,6 +1,6 @@
 package com.btl.tinder.data
 
-/**
+/**notes
  * A wrapper class for representing one-time events in MVVM architecture.
  *
  * This class is commonly used to handle events that should be consumed only once,
