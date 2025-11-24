@@ -47,6 +47,7 @@ firebaseFunctionsKtx = "21.1.2"
 composeMaterial = "1.5.5"
 firebaseAppcheckDebug = "19.0.1"
 uiGraphics = "1.9.5"
+foundationLayoutVersion = "1.9.5"
 
 
 [libraries]
@@ -104,6 +105,7 @@ firebase-functions-ktx = { group = "com.google.firebase", name = "firebase-funct
 androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
 google-firebase-functions-ktx = { group = "com.google.firebase", name = "firebase-functions-ktx", version.ref = "firebaseFunctionsKtx" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
+androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayoutVersion" }
 
 
 [plugins]
