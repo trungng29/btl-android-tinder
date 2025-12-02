@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.btl.tinder.CommonImage
 import com.btl.tinder.CommonProgressSpinner
+import com.btl.tinder.DestinationScreen
 import com.btl.tinder.R
 import com.btl.tinder.TCViewModel
 import com.btl.tinder.UserMatch
@@ -41,6 +43,8 @@ import com.btl.tinder.data.UserData
 import com.btl.tinder.swipecards.Direction
 import com.btl.tinder.swipecards.rememberSwipeableCardState
 import com.btl.tinder.swipecards.swipableCard
+import com.btl.tinder.ui.theme.deliusFontFamily
+import com.btl.tinder.ui.theme.playpenFontFamily
 import kotlinx.coroutines.launch
 import meshGradient
 
@@ -128,7 +132,8 @@ fun SwipeScreen(navController: NavController, vm: TCViewModel) {
                                     }
                                 },
                                 onSwipeCancel = { Log.d("Swipeable card", "Cancelled swipe") }),
-                        userMatch = userMatch
+                        userMatch = userMatch,
+                        navController = navController
                     )
                 }
             }
@@ -140,16 +145,34 @@ fun SwipeScreen(navController: NavController, vm: TCViewModel) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                CircleButton(onClick = {
-                    scope.launch {
-                        states.reversed().firstOrNull { it.second.offset.value == Offset(0f, 0f) }?.second?.swipe(Direction.Left)
-                    }
-                }, drawableResId = R.drawable.cancel, backgroundColor = Color(0xFFE91E63), animateTrigger = animateLeftButtonTrigger.value)
-                CircleButton(onClick = {
-                    scope.launch {
-                        states.reversed().firstOrNull { it.second.offset.value == Offset(0f, 0f) }?.second?.swipe(Direction.Right)
-                    }
-                }, drawableResId = R.drawable.love, backgroundColor = Color(0xFF673AB7), animateTrigger = animateRightButtonTrigger.value)
+                CircleButton(
+                    onClick = {
+                        scope.launch {
+                            states.lastOrNull()?.let { (userMatch, state) ->
+                                state.swipe(Direction.Left)
+                                animateLeftButtonTrigger.value++
+                                vm.onDislike(userMatch.user)
+                            }
+                        }
+                    },
+                    drawableResId = R.drawable.cancel,
+                    backgroundColor = Color(0xFFE91E63),
+                    animateTrigger = animateLeftButtonTrigger.value
+                )
+                CircleButton(
+                    onClick = {
+                        scope.launch {
+                            states.lastOrNull()?.let { (userMatch, state) ->
+                                state.swipe(Direction.Right)
+                                animateRightButtonTrigger.value++
+                                vm.onLike(userMatch.user)
+                            }
+                        }
+                    },
+                    drawableResId = R.drawable.love,
+                    backgroundColor = Color(0xFF673AB7),
+                    animateTrigger = animateRightButtonTrigger.value
+                )
             }
 
             BottomNavigationMenu(
@@ -202,11 +225,13 @@ private fun CircleButton(
 private fun ProfileCard(
     modifier: Modifier,
     userMatch: UserMatch,
+    navController: NavController
 ) {
     val matchProfile = userMatch.user
     Card(
         modifier
             .shadow(8.dp, RoundedCornerShape(16.dp), clip = false, ambientColor = Color.Black.copy(alpha = 0.15f), spotColor = Color.Black.copy(alpha = 0.25f))
+            .clickable { navController.navigate(DestinationScreen.ProfileDetail.createRoute(matchProfile.userId)) }
     ) {
         Box {
             CommonImage(matchProfile.imageUrl, modifier = Modifier.fillMaxSize())

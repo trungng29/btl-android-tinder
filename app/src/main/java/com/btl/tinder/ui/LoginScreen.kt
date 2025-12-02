@@ -55,7 +55,8 @@ import com.btl.tinder.DestinationScreen
 import com.btl.tinder.R
 import com.btl.tinder.TCViewModel
 import com.btl.tinder.navigateTo
-import com.btl.tinder.ui.deliusFontFamily
+import com.btl.tinder.ui.theme.deliusFontFamily
+import com.btl.tinder.ui.theme.pacificoFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -122,7 +123,9 @@ fun LoginScreen(navController: NavController, vm: TCViewModel) {
                     focusedTextColor = Color.Black,
                     unfocusedTextColor = Color.Black
                 ),
-                label = { Text(text = "Email", fontFamily = deliusFontFamily, color = Color.Black) })
+                label = { Text(text = "Email", fontFamily = deliusFontFamily, color = Color.Black) },
+                singleLine = true
+            )
 
             OutlinedTextField(
                 value = passwordState.value,
@@ -150,7 +153,8 @@ fun LoginScreen(navController: NavController, vm: TCViewModel) {
                     IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
                         Icon(imageVector = image, description, tint = Color.Black) // Changed icon color to black
                     }
-                }
+                },
+                singleLine = true
             )
 
             Spacer(modifier = Modifier.height(20.dp))

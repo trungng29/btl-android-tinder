@@ -62,20 +62,9 @@ import com.btl.tinder.DestinationScreen
 import com.btl.tinder.R
 import com.btl.tinder.TCViewModel
 import com.btl.tinder.navigateTo
+import com.btl.tinder.ui.theme.deliusFontFamily
+import com.btl.tinder.ui.theme.pacificoFontFamily
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-
-val pacificoFontFamily = FontFamily(
-    Font(R.font.pacifico_regular, FontWeight.Normal)
-)
-
-val deliusFontFamily = FontFamily(
-    Font(R.font.delius_regular, FontWeight.Normal)
-)
-
-val playpenFontFamily = FontFamily(
-    Font(R.font.playpen_sans_variable_font_wght, FontWeight.Normal)
-)
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -155,7 +144,8 @@ fun SignupScreen(navController: NavController, vm: TCViewModel) {
                     focusedTextColor = Color.Black,
                     unfocusedTextColor = Color.Black
                 ),
-                label = { Text(text = "Username", fontFamily = deliusFontFamily, color = Color.Black) }
+                label = { Text(text = "Username", fontFamily = deliusFontFamily, color = Color.Black) },
+                singleLine = true
             )
 
             OutlinedTextField(
@@ -172,7 +162,8 @@ fun SignupScreen(navController: NavController, vm: TCViewModel) {
                     focusedTextColor = Color.Black,
                     unfocusedTextColor = Color.Black
                 ),
-                label = { Text(text = "Email", fontFamily = deliusFontFamily, color = Color.Black) }
+                label = { Text(text = "Email", fontFamily = deliusFontFamily, color = Color.Black) },
+                singleLine = true
             )
 
 
@@ -203,7 +194,8 @@ fun SignupScreen(navController: NavController, vm: TCViewModel) {
                     IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
                         Icon(imageVector = image, description, tint = Color.Black) // Changed icon color to black
                     }
-                }
+                },
+                singleLine = true
             )
 
             Spacer(modifier = Modifier.height(20.dp))
